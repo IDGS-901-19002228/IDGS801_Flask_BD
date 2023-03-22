@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{%from "_macros.html" import render_field%}
+
+<div class="d-flex justify-content-evenly">
+    <div class="col-">
+        <h1>Calculadora de resistencias</h1>
+        <form method="post" class="form-group">
+            {{form.csrf_token}}
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+            {{render_field(form.banda1, class_="form-control")}}
+            {{render_field(form.banda2, class_="form-control")}}
+            {{render_field(form.multiplicador, class_="form-control")}}
+            {{render_field(form.tolerancia,class_="form-control")}}
+            <!-- {{render_field(form.submit, class_="btn btn-primary")}} -->
+            <button type="submit" class="btn btn-info mt-3">
+                <i class="bi bi-calculator-fill"></i> Calcular
+            </button>
+        </form>
+        {% if res != {} %}    
+        <div class="table-responsive">
+            <table class="table table-striped-columns">
+                <thead>
+                    <tr>
+                        <th>Banda 1</th>
+                        <th>Banda 2</th>
+                        <th>Multiplicador</th>
+                        <th>Tolerancia</th>
+                        <th>Valor</th>
+                        <th>Minimo</th>
+                        <th>Maximo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="background-color:{{banda1}}">{{form.banda1.data}}</td>
+                        <td style="background-color:{{banda2}}">{{form.banda2.data}}</td>
+                        <td style="background-color:{{multiplicador}}">{{form.multiplicador.data}}</td>
+                        <td style="background-color:{{tolerancia}}">{{form.tolerancia.data}}</td>
+                        <td>{{res['tot']}}</td>
+                        <td>{{res['min']}}</td>
+                        <td>{{res['max']}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    </div>
+    <div class="col-">
+        <img src="static/img/resistencias.png" width="500" alt="img" class="img-fluid">
+    </div>
+</div>
+
+{% endblock %}
